@@ -66,6 +66,15 @@ describe "integretion" do
     expect(diary.reading_time(2)).to eq 4
   end
 
+  it "should fail if wpm is not positive" do 
+    diary = Diary.new
+    chapter = DiaryEntry.new("title", "content")
+    chapter2 = DiaryEntry.new("title", "a lot of content in this string")
+    diary.add_chapter(chapter)
+    diary.add_chapter(chapter2)
+    expect{ diary.reading_time(0) }.to raise_error "wpm must be positive"
+  end
+
   it "should return the chunk of contant what is possible to read with the given time" do 
     diary = Diary.new
     chapter1 = DiaryEntry.new("title", "one, two")
