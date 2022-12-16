@@ -35,7 +35,19 @@ class Diary
     end
   end
 
-  def best_entry_to_read(wpm, min)
+  def count_words 
+    list_chapter.sum(&:count_words)
+  end
 
+  def reading_time(wpm)
+    (count_words / wpm.to_f).ceil
+  end
+
+  def best_entry_to_read(wpm, min) 
+    readable_chapters = @my_diary.filter do |chapter|
+      chapter.reading_time(wpm) <= min
+    end
+    readable_chapters.max_by{ |chapter| chapter.count_words }
+    readable_chapters[0].content
   end
 end
